@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useNavigate, Routes, Route } from 'react-router-dom';
 import useAppointments from '../hooks/useAppointments';
-import { addAppointment, updateAppointment, deleteAppointment } from '../api/appointments';
-import AppointmentForm from '../components/AppointmentForm';
+import { updateAppointment, deleteAppointment } from '../api/appointments';
 import AppointmentList from '../components/AppointmentList';
 import { AxiosResponse } from 'axios';
+import UpdateAppointmentPage from './UpdateAppointmentPage';
 
 interface Appointment {
-  id?: number; // id is optional when creating a new appointment
+  id: number;
   name: string;
   date: string;
   status: string;
@@ -15,29 +16,21 @@ interface Appointment {
 
 const CalendarPage = () => {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const { data, isLoading: isAppointmentsLoading, error } = useAppointments();
   const [filter, setFilter] = useState<string>('');
   const [search, setSearch] = useState<string>('');
   const [sortOrder, setSortOrder] = useState<string>('asc');
-  const [isFormLoading, setIsFormLoading] = useState<boolean>(false);
   const [isListLoading, setIsListLoading] = useState<boolean>(false);
-
-  const addMutation = useMutation<AxiosResponse<any>, Error, Appointment>({
-    mutationFn: (newAppointment: Appointment) => addAppointment(newAppointment),
-    onMutate: () => setIsFormLoading(true),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['appointments'] });
-      setIsFormLoading(false);
-    },
-    onError: () => setIsFormLoading(false),
-  });
+  const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null);
 
   const updateMutation = useMutation<AxiosResponse<any>, Error, Appointment>({
-    mutationFn: (appointment: Appointment) => updateAppointment(appointment.id!, appointment),
+    mutationFn: (appointment: Appointment) => updateAppointment(appointment.id, appointment),
     onMutate: () => setIsListLoading(true),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['appointments'] });
       setIsListLoading(false);
+      navigate('/calendar');
     },
     onError: () => setIsListLoading(false),
   });
@@ -52,6 +45,11 @@ const CalendarPage = () => {
     onError: () => setIsListLoading(false),
   });
 
+  const handleEdit = (appointment: Appointment) => {
+    setSelectedAppointment(appointment);
+    navigate(`/calendar/update/${appointment.id}`);
+  };
+
   const filteredAppointments = data?.filter((appointment: Appointment) => {
     return (
       (filter === '' || appointment.status === filter) &&
@@ -59,7 +57,7 @@ const CalendarPage = () => {
     );
   });
 
-  const sortedAppointments = filteredAppointments?.sort((a: { date: string | number | Date; }, b: { date: string | number | Date; }) => {
+  const sortedAppointments = filteredAppointments?.sort((a: Appointment, b: Appointment) => {
     if (sortOrder === 'asc') {
       return new Date(a.date).getTime() - new Date(b.date).getTime();
     } else {
@@ -73,50 +71,73 @@ const CalendarPage = () => {
   return (
     <div className="flex justify-center">
       <div className="w-full max-w-3xl p-4">
-        <div className="p-4 bg-white shadow-md rounded mb-4 flex justify-between items-center">
-          <div>
-            <label>Status</label>
-            <select
-              value={filter}
-              onChange={(e) => setFilter(e.target.value)}
-              className="border p-2 ml-2"
-            >
-              <option value="">All</option>
-              <option value="Pending">Pending</option>
-              <option value="Completed">Completed</option>
-            </select>
-          </div>
-          <div>
-            <label>Search</label>
-            <input
-              type="text"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="border p-2 ml-2"
-            />
-          </div>
-          <div>
-            <label>Sort by Date</label>
-            <select
-              value={sortOrder}
-              onChange={(e) => setSortOrder(e.target.value)}
-              className="border p-2 ml-2"
-            >
-              <option value="asc">Ascending</option>
-              <option value="desc">Descending</option>
-            </select>
-          </div>
-        </div>
-        <AppointmentForm onAdd={(appointment) => addMutation.mutate(appointment)} isLoading={isFormLoading} />
-        {isListLoading ? (
-          <div>Loading...</div>
-        ) : (
-          <AppointmentList
-            appointments={sortedAppointments}
-            onUpdate={(appointment) => updateMutation.mutate(appointment)}
-            onDelete={(id) => deleteMutation.mutate(id)}
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <div className="p-4 bg-white shadow-md rounded mb-4 flex justify-between items-center">
+                  <div>
+                    <label>Status</label>
+                    <select
+                      value={filter}
+                      onChange={(e) => setFilter(e.target.value)}
+                      className="border p-2 ml-2"
+                    >
+                      <option value="">All</option>
+                      <option value="Pending">Pending</option>
+                      <option value="Completed">Completed</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label>Search</label>
+                    <input
+                      type="text"
+                      value={search}
+                      onChange={(e) => setSearch(e.target.value)}
+                      className="border p-2 ml-2"
+                    />
+                  </div>
+                  <div>
+                    <label>Sort by Date</label>
+                    <select
+                      value={sortOrder}
+                      onChange={(e) => setSortOrder(e.target.value)}
+                      className="border p-2 ml-2"
+                    >
+                      <option value="asc">Ascending</option>
+                      <option value="desc">Descending</option>
+                    </select>
+                  </div>
+                </div>
+                <button onClick={() => navigate('/add')} className="bg-green-500 text-white p-2 rounded mb-4 w-full">
+                    Add Appointment
+                  </button>
+                {isListLoading ? (
+                  <div>Loading...</div>
+                ) : (
+                  <AppointmentList
+                    appointments={sortedAppointments as Appointment[]}
+                    onUpdate={handleEdit}
+                    onDelete={(id) => deleteMutation.mutate(id)}
+                  />
+                )}
+              </>
+            }
           />
-        )}
+          {selectedAppointment && (
+            <Route
+              path="update/:id"
+              element={
+                <UpdateAppointmentPage
+                  appointment={selectedAppointment}
+                  onUpdate={(appointment: Appointment) => updateMutation.mutate(appointment)}
+                  isLoading={isListLoading}
+                />
+              }
+            />
+          )}
+        </Routes>
       </div>
     </div>
   );

@@ -1,4 +1,13 @@
-const AppointmentItem = ({ appointment, onUpdate, onDelete }: { appointment: any, onUpdate: (appointment: any) => void, onDelete: (id: number) => void }) => {
+import React from 'react';
+
+interface Appointment {
+  id: number;
+  name: string;
+  date: string;
+  status: string;
+}
+
+const AppointmentItem = ({ appointment, onUpdate, onDelete }: { appointment: Appointment, onUpdate: (appointment: Appointment) => void, onDelete: (id: number) => void }) => {
   const toggleStatus = () => {
     const updatedStatus = appointment.status === 'Pending' ? 'Completed' : 'Pending';
     onUpdate({ ...appointment, status: updatedStatus });
@@ -20,6 +29,9 @@ const AppointmentItem = ({ appointment, onUpdate, onDelete }: { appointment: any
       <div>
         <button onClick={toggleStatus} className="bg-yellow-500 text-white p-2 rounded mr-2">
           {appointment.status === 'Pending' ? 'Mark as Completed' : 'Mark as Pending'}
+        </button>
+        <button onClick={() => onUpdate(appointment)} className="bg-blue-500 text-white p-2 rounded mr-2">
+          Edit
         </button>
         <button onClick={handleDelete} className="bg-red-500 text-white p-2 rounded">
           Delete

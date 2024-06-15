@@ -1,6 +1,14 @@
+import React from 'react';
 import AppointmentItem from './AppointmentItem';
 
-const AppointmentList = ({ appointments, onUpdate, onDelete }: { appointments: any[], onUpdate: (appointment: any) => void, onDelete: (id: number) => void }) => {
+interface Appointment {
+  id: number;
+  name: string;
+  date: string;
+  status: string;
+}
+
+const AppointmentList = ({ appointments, onUpdate, onDelete }: { appointments: Appointment[], onUpdate: (appointment: Appointment) => void, onDelete: (id: number) => void }) => {
   return (
     <div>
       {appointments.map((appointment) => (
