@@ -1,4 +1,3 @@
-import React from "react";
 import UpdateAppointmentForm from "../components/UpdateAppointmentForm";
 import { Appointment } from "../types";
 

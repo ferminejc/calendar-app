@@ -1,5 +1,3 @@
-import React from 'react';
-
 interface Appointment {
   id: number;
   name: string;
