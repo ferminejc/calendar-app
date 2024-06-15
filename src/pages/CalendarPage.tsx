@@ -50,6 +50,10 @@ const CalendarPage = () => {
     navigate(`/calendar/update/${appointment.id}`);
   };
 
+  const handleUpdateStatus = (appointment: Appointment) => {
+    updateMutation.mutate(appointment);
+  };
+
   const filteredAppointments = data?.filter((appointment: Appointment) => {
     return (
       (filter === '' || appointment.status === filter) &&
@@ -118,7 +122,8 @@ const CalendarPage = () => {
                 ) : (
                   <AppointmentList
                     appointments={sortedAppointments as Appointment[]}
-                    onUpdate={handleEdit}
+                    onEdit={handleEdit}
+                    onUpdateStatus={handleUpdateStatus}
                     onDelete={(id) => deleteMutation.mutate(id)}
                   />
                 )}

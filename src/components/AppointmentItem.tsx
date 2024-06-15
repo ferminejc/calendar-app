@@ -1,3 +1,5 @@
+import React from 'react';
+
 interface Appointment {
   id: number;
   name: string;
@@ -5,10 +7,10 @@ interface Appointment {
   status: string;
 }
 
-const AppointmentItem = ({ appointment, onUpdate, onDelete }: { appointment: Appointment, onUpdate: (appointment: Appointment) => void, onDelete: (id: number) => void }) => {
+const AppointmentItem = ({ appointment, onUpdateStatus, onEdit, onDelete }: { appointment: Appointment, onUpdateStatus: (appointment: Appointment) => void, onEdit: (appointment: Appointment) => void, onDelete: (id: number) => void }) => {
   const toggleStatus = () => {
     const updatedStatus = appointment.status === 'Pending' ? 'Completed' : 'Pending';
-    onUpdate({ ...appointment, status: updatedStatus });
+    onUpdateStatus({ ...appointment, status: updatedStatus });
   };
 
   const handleDelete = () => {
@@ -28,7 +30,7 @@ const AppointmentItem = ({ appointment, onUpdate, onDelete }: { appointment: App
         <button onClick={toggleStatus} className="bg-yellow-500 text-white p-2 rounded mr-2">
           {appointment.status === 'Pending' ? 'Mark as Completed' : 'Mark as Pending'}
         </button>
-        <button onClick={() => onUpdate(appointment)} className="bg-blue-500 text-white p-2 rounded mr-2">
+        <button onClick={() => onEdit(appointment)} className="bg-blue-500 text-white p-2 rounded mr-2">
           Edit
         </button>
         <button onClick={handleDelete} className="bg-red-500 text-white p-2 rounded">
