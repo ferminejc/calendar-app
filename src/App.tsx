@@ -1,9 +1,7 @@
-import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import LoginPage from './pages/LoginPage';
 import CalendarPage from './pages/CalendarPage';
-import NotFoundPage from './pages/NotFoundPage';
 
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
   const { isAuthenticated } = useAuth();

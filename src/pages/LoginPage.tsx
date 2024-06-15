@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 
 const LoginPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('guest@email.com');
+  const [password, setPassword] = useState('Pass123');
   const { login } = useAuth();
 
   const handleSubmit = (e: React.FormEvent) => {

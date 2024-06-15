@@ -1,4 +1,3 @@
-import React from 'react';
 import AppointmentItem from './AppointmentItem';
 
 const AppointmentList = ({ appointments, onUpdate, onDelete }: { appointments: any[], onUpdate: (appointment: any) => void, onDelete: (id: number) => void }) => {
