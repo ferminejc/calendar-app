@@ -1,46 +1,87 @@
-# Getting Started with Create React App
+# Calendar Appointment App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a Calendar Appointment App built with React, TailwindCSS, and React Query. The app allows users to log in, view, add, update, delete, filter, search, and sort appointments.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- User Authentication (Mock Login)
+- View All Appointments
+- Add New Appointments
+- Update Appointment Status
+- Delete Appointments with Confirmation
+- Filter Appointments by Status
+- Search Appointments by Name
+- Sort Appointments by Date (Ascending/Descending)
+- Loading Indicators for HTTP Requests
+- Form Validation
 
-### `npm start`
+## Technologies Used
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- React
+- React Router
+- React Query
+- Axios
+- TailwindCSS
+- TypeScript
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Installation
 
-### `npm test`
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/ferminejc/calendar-app.git
+    cd calendar-app
+    ```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. Install the dependencies:
+    ```bash
+    npm install
+    ```
 
-### `npm run build`
+3. Start the JSON Server (Mock API):
+    ```bash
+    npx json-server --watch db.json --port 5000
+    ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+4. Start the React application:
+    ```bash
+    npm start
+    ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Usage
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. Open your browser and navigate to `http://localhost:3000`.
 
-### `npm run eject`
+2. Log in using the mock credentials:
+    - Email: `guest@email.com`
+    - Password: `Pass123`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+3. Once logged in, you can:
+    - View all appointments.
+    - Add new appointments by filling out the form and clicking "Add Appointment".
+    - Update the status of an appointment by clicking "Mark as Completed" or "Mark as Pending".
+    - Delete an appointment by clicking "Delete" and confirming the action.
+    - Filter appointments by status using the dropdown menu.
+    - Search appointments by name using the search input.
+    - Sort appointments by date using the sort dropdown.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Project Structure
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+```plaintext
+src/
+├── api/
+│   └── appointments.ts
+├── components/
+│   ├── AppointmentForm.tsx
+│   ├── AppointmentItem.tsx
+│   └── AppointmentList.tsx
+├── context/
+│   └── AuthContext.tsx
+├── hooks/
+│   └── useAppointments.ts
+├── pages/
+│   ├── CalendarPage.tsx
+│   ├── LoginPage.tsx
+├── App.tsx
+├── index.tsx
+├── App.css
+└── index.css
