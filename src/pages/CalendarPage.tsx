@@ -18,6 +18,7 @@ const CalendarPage = () => {
   const { data, isLoading: isAppointmentsLoading, error } = useAppointments();
   const [filter, setFilter] = useState<string>('');
   const [search, setSearch] = useState<string>('');
+  const [sortOrder, setSortOrder] = useState<string>('asc');
   const [isFormLoading, setIsFormLoading] = useState<boolean>(false);
   const [isListLoading, setIsListLoading] = useState<boolean>(false);
 
@@ -58,6 +59,14 @@ const CalendarPage = () => {
     );
   });
 
+  const sortedAppointments = filteredAppointments?.sort((a: { date: string | number | Date; }, b: { date: string | number | Date; }) => {
+    if (sortOrder === 'asc') {
+      return new Date(a.date).getTime() - new Date(b.date).getTime();
+    } else {
+      return new Date(b.date).getTime() - new Date(a.date).getTime();
+    }
+  });
+
   if (isAppointmentsLoading) return <div>Loading appointments...</div>;
   if (error) return <div>Error loading appointments</div>;
 
@@ -86,13 +95,24 @@ const CalendarPage = () => {
               className="border p-2 ml-2"
             />
           </div>
+          <div>
+            <label>Sort by Date</label>
+            <select
+              value={sortOrder}
+              onChange={(e) => setSortOrder(e.target.value)}
+              className="border p-2 ml-2"
+            >
+              <option value="asc">Ascending</option>
+              <option value="desc">Descending</option>
+            </select>
+          </div>
         </div>
         <AppointmentForm onAdd={(appointment) => addMutation.mutate(appointment)} isLoading={isFormLoading} />
         {isListLoading ? (
           <div>Loading...</div>
         ) : (
           <AppointmentList
-            appointments={filteredAppointments}
+            appointments={sortedAppointments}
             onUpdate={(appointment) => updateMutation.mutate(appointment)}
             onDelete={(id) => deleteMutation.mutate(id)}
           />
