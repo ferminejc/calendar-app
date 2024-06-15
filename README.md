@@ -14,6 +14,7 @@ This is a Calendar Appointment App built with React, TailwindCSS, and React Quer
 - Sort Appointments by Date (Ascending/Descending)
 - Loading Indicators for HTTP Requests
 - Form Validation
+- Mobile Responsive Design
 
 ## Technologies Used
 
@@ -57,9 +58,9 @@ This is a Calendar Appointment App built with React, TailwindCSS, and React Quer
 
 3. Once logged in, you can:
     - View all appointments.
-    - Add new appointments by filling out the form and clicking "Add Appointment".
-    - Update the status of an appointment by clicking "Mark as Completed" or "Mark as Pending".
-    - Delete an appointment by clicking "Delete" and confirming the action.
+    - Add new appointments by navigating to the add page and filling out the form.
+    - Update an appointment by clicking the "Edit" button on an appointment and updating the details.
+    - Delete an appointment by clicking the "Delete" button and confirming the action.
     - Filter appointments by status using the dropdown menu.
     - Search appointments by name using the search input.
     - Sort appointments by date using the sort dropdown.
@@ -81,6 +82,8 @@ src/
 ├── pages/
 │   ├── CalendarPage.tsx
 │   ├── LoginPage.tsx
+│   ├── AddAppointmentPage.tsx
+│   └── UpdateAppointmentPage.tsx
 ├── App.tsx
 ├── index.tsx
 ├── App.css
