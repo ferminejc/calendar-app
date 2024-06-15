@@ -28,7 +28,7 @@
     "eject": "react-scripts eject",
     "start:json-server": "json-server --watch db.json --port 5000"
   },
-  "proxy": "https://json-server-vercel-p4ucgk6xk-john-christian-fermins-projects.vercel.app",
+  "proxy": "https://json-server-vercel-p4ucgk6xk-john-christian-fermins-projects.vercel.app/api",
   "eslintConfig": {
     "extends": [
       "react-app",
