@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://json-server-vercel-beta-ten.vercel.app',
+  baseURL: 'https://json-server-vercel-beta-ten.vercel.app/api',
 });
 
 export const fetchAppointments = async () => {
