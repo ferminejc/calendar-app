@@ -2,9 +2,39 @@
   "appointments": [
     {
       "id": "202d",
-      "name": "est",
-      "date": "1996-01-31",
+      "name": "Initial Interview",
+      "date": "2024-06-15",
       "status": "Completed"
+    },
+    {
+      "id": "203d",
+      "name": "Tech Exam",
+      "date": "2024-06-16",
+      "status": "Completed"
+    },
+    {
+      "id": "204d",
+      "name": "Tech Interview",
+      "date": "2024-06-19",
+      "status": "Pending"
+    },
+    {
+      "id": "205d",
+      "name": "Client Interview",
+      "date": "2024-06-25",
+      "status": "Pending"
+    },
+    {
+      "id": "206d",
+      "name": "Final Interview",
+      "date": "2024-06-29",
+      "status": "Pending"
+    },
+        {
+      "id": "207d",
+      "name": "Onboarding",
+      "date": "2024-07-01",
+      "status": "Pending"
     }
   ]
 }
